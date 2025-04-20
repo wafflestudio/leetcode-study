@@ -1,0 +1,8 @@
+CompileFlags:
+  Add:
+    - "-std=c++23"
+    - "-nostdinc++"
+    - "-I/opt/homebrew/opt/gcc/include/c++/14"
+    - "-I/opt/homebrew/opt/gcc/include/c++/14/aarch64-apple-darwin24"
+    - "-I/opt/homebrew/opt/gcc/include/c++/14/backward"
+    - "-L/opt/homebrew/opt/gcc/lib"
