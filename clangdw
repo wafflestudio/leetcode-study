@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
-echo "-std=c++23" > compile_flags.txt
-echo "-nostdinc++" > compile_flags.txt
-echo "-O2" > compile_flags.txt
+if [ -nf compile_flags.txt ]; then
+    echo "-std=c++23" > compile_flags.txt
+    echo "-nostdinc++" >> compile_flags.txt
+    echo "-O2" >> compile_flags.txt
 
-# Find g++ default include paths
-g++-14 -E -x c++ - -v < /dev/null 2>&1 | \
-    awk '/#include <...> search starts here:/, /End of search list./ { if ($0 !~ /search starts here|End of search list/) print "-I" $1 }' \
-    >> compile_flags.txt
+    # Find g++ default include paths
+    g++-14 -E -x c++ - -v < /dev/null 2>&1 | \
+        awk '/#include <...> search starts here:/, /End of search list./ { if ($0 !~ /search starts here|End of search list/) print "-I" $1 }' \
+        >> compile_flags.txt
+fi
 
 # Run clangd with those include paths added
 exec clangd "$@"
