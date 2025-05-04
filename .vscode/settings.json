@@ -1,8 +1,9 @@
 {
     "code-runner.executorMap": {
-        "cpp": "cd $dir && g++-14 -std=c++23 -lfmt $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt && rm $dir$fileNameWithoutExt",
+        "cpp": "cd $dir && g++-14 -std=c++23 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt && rm $dir$fileNameWithoutExt",
     },
     "[cpp]": {
         "editor.tabSize": 4
-    }
+    },
+    "clangd.path": "./clangdw"
 }
