@@ -19,10 +19,16 @@ public:
             temp = temp->next;
         }
 
-        for (int i = 0; i < list.size(); i++) {
+
+        int mid = (list.size()) / 2;
+        for (int i = 0; i < mid; i++) {
             list[i]->next = list[list.size() - i - 1];
         }
-        int mid = (list.size() + 1) / 2;
+
+        for (int i = mid + 1; i < list.size(); i++) {
+            list[i]->next = list[list.size() - i];
+        }
+
         list[mid]->next = nullptr;
     }
 };
