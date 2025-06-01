@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -nf compile_flags.txt ]; then
+if [ ! -f compile_flags.txt ]; then
     echo "-std=c++23" > compile_flags.txt
     echo "-nostdinc++" >> compile_flags.txt
     echo "-O2" >> compile_flags.txt
