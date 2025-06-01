@@ -1,33 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 class MedianFinder {
 private:
-    vector<int> arr;
+    priority_queue<int, vector<int>, less<int>> max_heap;
+    priority_queue<int, vector<int>, greater<int>> min_heap;
 
 public:
     MedianFinder() {
     }
-    
+
     void addNum(int num) {
-        for (auto it = arr.begin(); it != arr.end(); it++) {
-            if (*it > num) {
-                arr.insert(it, num);
-                return;
-            }
+        if (!min_heap.empty() && min_heap.top() < num) min_heap.push(num);
+        else max_heap.push(num);
+
+        while (min_heap.size() > max_heap.size()) {
+            max_heap.push(min_heap.top());
+            min_heap.pop();
         }
-        arr.push_back(num);
+
+        while (min_heap.size() + 1 < max_heap.size()) {
+            min_heap.push(max_heap.top());
+            max_heap.pop();
+        }
     }
-    
+
     double findMedian() {
-        if (arr.size() % 2 == 1) {
-            return arr[arr.size() / 2];
-        } else {
-            return (arr[arr.size() / 2] + arr[arr.size() / 2 - 1]) / 2.0;
-        }
+        if (min_heap.size() == max_heap.size()) return (min_heap.top() + max_heap.top()) / 2.0;
+        else return max_heap.top();
     }
 };
+
 
 int main() {
     MedianFinder mf;
