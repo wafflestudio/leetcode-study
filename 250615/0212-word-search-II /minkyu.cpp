@@ -19,7 +19,7 @@ public:
 class Solution {
 public:
     // Improvement 1: It is essential to specify every non-primitive arguments as a reference variable, because the copy operation of huge variable costs really expensive.
-    void collect(vector<vector<char>>& board, TrieNode*& prev, int x, int y, vector<string>& cum, int m, int n, vector<vector<bool>>& visited) {
+    void collect(vector<vector<char>>& board, TrieNode*& prev, int x, int y, vector<string>& cum, int m, int n, int visited[12][12]) {
         if (x < 0 || x >= m || y < 0 || y >= n || visited[x][y]) return;
         visited[x][y] = true;
         if (prev->children.contains(board[x][y])) {
@@ -62,7 +62,8 @@ public:
         }
 
         vector<string> answer;
-        vector<vector<bool>> visited(m, vector(n, false));
+        // Improvement 3: Use an array instead of a vector if the size of the array is fixed and unchangeable.
+        int visited[12][12];
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 collect(board, word_trie, i, j, answer, m, n, visited);
