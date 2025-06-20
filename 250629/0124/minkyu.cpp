@@ -20,11 +20,13 @@ private:
         int leftMax = partialMaximum(node->left, answer);
         int rightMax = partialMaximum(node->right, answer);
 
+        // nodeMax is the maximum value of path sums which consist of current nodes and descendants of current nodes.
         int nodeMax = node->val;
         if (leftMax > 0) nodeMax += leftMax;
         if (rightMax > 0) nodeMax += rightMax;
 
         *answer = max(*answer, nodeMax);
+        // Return value is the maximum value of path sums which consist of current nodes and at most one child with his descendants.
         return node->val + max({leftMax, rightMax, 0});
     }
 
