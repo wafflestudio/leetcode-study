@@ -5,20 +5,20 @@ using namespace std;
 class Solution {
 public:
     bool check(string s, int k, int l) {
-        queue<char> q;
+        int left = 0;
+        int right = 0;
         vector<int> count_of(26, 0);
         for (int i = 0; i < l; i++) {
-            q.push(s[i]);
+            right++;
             int count = ++count_of[s[i] - 'A'];
             if (count + k >= l) return true;
         }
         for (int i = l; i < s.length(); i++) {
-            char c = q.front(); q.pop();
-            q.push(s[i]);
+            char c = s[left]; left++;
+            right++;
             --count_of[c - 'A'];
             int count = ++count_of[s[i] - 'A'];
             if (count + k >= l) return true;
-            
         }
         return false;
     }
