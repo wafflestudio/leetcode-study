@@ -4,39 +4,43 @@ using namespace std;
 
 class Solution {
 public:
-    bool check(string s, int k, int l) {
+    int characterReplacement(string s, int k) {
+        int answer = 0;
         int left = 0;
         int right = 0;
-        vector<int> count_of(26, 0);
-        for (int i = 0; i < l; i++) {
-            right++;
-            int count = ++count_of[s[i] - 'A'];
-            if (count + k >= l) return true;
+        vector<bool> visited(128, false);
+        vector<char> candiates;
+        vector<int> count_of(128, 0);
+        for (char& c: s) {
+            char r_char = s[right++];
+            if (!visited[r_char]) {
+                visited[r_char] = true;
+                candiates.push_back(r_char);
+            }
+            int temp = ++count_of[r_char] + k;
+            int q_len = right - left;
+            bool left_step_forward = true;
+            if (temp < q_len) {
+                for (char& candi: candiates) {
+                    int temp = count_of[candi] + k;
+                    if (temp >= q_len) {
+                        left_step_forward = false;
+                        break;
+                    }
+                }
+            } else {
+                left_step_forward = false;
+            }
+            if (left_step_forward) {
+                count_of[s[left++]]--;
+            }
         }
-        for (int i = l; i < s.length(); i++) {
-            char c = s[left]; left++;
-            right++;
-            --count_of[c - 'A'];
-            int count = ++count_of[s[i] - 'A'];
-            if (count + k >= l) return true;
-        }
-        return false;
-    }
-
-    int characterReplacement(string s, int k) {
-        int left = min(k, (int) s.length());
-        int right = s.length() + 1;
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (check(s, k, mid)) left = mid + 1;
-            else right = mid;
-        }
-        return left - 1;
+        return right - left;
     }
 };
 
 int main() {
-    string s = "ABBB";
+    string s = "BAAAB";
     int k = 2;
     println("{}", Solution().characterReplacement(s, k));
 }
