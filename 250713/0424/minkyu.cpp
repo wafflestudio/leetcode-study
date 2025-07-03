@@ -4,34 +4,34 @@ using namespace std;
 
 class Solution {
 public:
-    int characterReplacement(string s, int k) {
-        int answer = min(k, (int) s.size());
-        for (char target = 'A'; target <= 'Z'; target++) {
-            queue<char> q;
-            int rem = k;
-            for (char& c : s) {
-                if (c == target) {
-                    q.push(c);
-                } else {
-                    if (rem > 0) {
-                        q.push(c);
-                        rem--;
-                    } else {
-                        answer = max(answer, (int) q.size());
-                        while (!q.empty()) {
-                            char out = q.front();
-                            q.pop();
-                            if (out != target) {
-                                q.push(c);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            answer = max(answer, (int) q.size());
+    bool check(string s, int k, int l) {
+        queue<char> q;
+        vector<int> count_of(26, 0);
+        for (int i = 0; i < l; i++) {
+            q.push(s[i]);
+            int count = ++count_of[s[i] - 'A'];
+            if (count + k >= l) return true;
         }
-        return answer;
+        for (int i = l; i < s.length(); i++) {
+            char c = q.front(); q.pop();
+            q.push(s[i]);
+            --count_of[c - 'A'];
+            int count = ++count_of[s[i] - 'A'];
+            if (count + k >= l) return true;
+            
+        }
+        return false;
+    }
+
+    int characterReplacement(string s, int k) {
+        int left = min(k, (int) s.length());
+        int right = s.length() + 1;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (check(s, k, mid)) left = mid + 1;
+            else right = mid;
+        }
+        return left - 1;
     }
 };
 
