@@ -31,3 +31,12 @@ class Solution:
                     old_value = temp
                     old_x = new_x
                     old_y = new_y
+
+    def rotate2(self, matrix: List[List[int]]) -> None:
+        n = len(matrix)
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+        for i in range(int(n / 2)):
+            matrix[i], matrix[n - i] = matrix[n - i], matrix[i]
